@@ -1,9 +1,11 @@
 // src/components/AppointmentList.jsx
 import { useSelector, useDispatch } from 'react-redux'
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { useSelector as useClientSelector } from 'react-redux'
+import { deleteAppointment } from '../redux/appointmentSlice'
 const AppointmentList = ({ selectedClientId, onEdit }) => {
     const dispatch = useDispatch()
+    const [message, setMessage] = useState(null)
     const { data: appointments, status } = useSelector(state => state.appointments)
     const { data: clients } = useClientSelector(state => state.clients)
 
@@ -17,19 +19,24 @@ const AppointmentList = ({ selectedClientId, onEdit }) => {
     }
 
     if (status === 'loading') return <p>Loading appointments...</p>
-    if (status === 'failed') return <p>Failed to load appointments</p>
+    if (status === 'failed') return <p>Failed to load appointments.</p>
 
     return (
-        <ul>
-            {filteredAppointments.map(app => (
-                <li key={app.id}>
-                    <strong>{getClientName(app.client_id)}</strong><br />
-                    Time: {new Date(app.time).toLocaleString()}<br />
-                    <button onClick={() => onEdit(app)}>Edit</button>
-                    <button onClick={() => dispatch(deleteAppointment(app.id))}>Delete</button>
-                </li>
-            ))}
-        </ul>
+        <div>
+            {message && <p style={{ color: message.includes('success') ? 'green' : 'red' }}>{message}</p>}
+            <ul className="appointment-list">
+                {filteredAppointments.map(app => (
+                    <li key={app.id} className="appointment-item">
+                        <strong>Name:</strong> {getClientName(app.client_id)} <br />
+                        <strong>Time:</strong> {new Date(app.time).toLocaleString()} <br />
+                        <div className="actions">
+                            <button onClick={() => onEdit(app)} className="edit-btn">Edit</button>
+                            <button onClick={() => dispatch(deleteAppointment(app.id))} className="delete-btn">Delete</button>
+                        </div>
+                    </li>
+                ))}
+            </ul>
+        </div>
     )
 }
 

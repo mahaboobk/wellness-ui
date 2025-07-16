@@ -1,5 +1,5 @@
 // src/components/AppointmentForm.jsx
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useState, useEffect } from 'react'
 import { createAppointment, updateAppointment } from '../redux/appointmentSlice'
 
@@ -9,7 +9,12 @@ const AppointmentForm = ({ editingAppointment = null, onCancelEdit }) => {
   const [time, setTime] = useState('')
   const [message, setMessage] = useState(null)
   const [error, setError] = useState(null)
+  const clients = useSelector(state => state.clients.data)
 
+  const getClientName = (id) => {
+    const client = clients.find(c => c.id === id)
+    return client ? client.name : 'Unknown'
+  }
   useEffect(() => {
     if (editingAppointment) {
       setClientId(editingAppointment.client_id)
@@ -46,22 +51,38 @@ const AppointmentForm = ({ editingAppointment = null, onCancelEdit }) => {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      {message && <p style={{ color: 'green' }}>{message}</p>}
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+    <form className="appointment-form" onSubmit={handleSubmit}>
+      {editingAppointment ? (
+        <div>
+          <label>Client:</label>
+          <p><strong>{getClientName(clientId)}</strong></p>
+        </div>
+      ) : (
+        <div>
+          <label>
+            Client:
+            <select value={clientId} onChange={(e) => setClientId(e.target.value)} required>
+              <option value="">Select a client</option>
+              {clients.map(client => (
+                <option key={client.id} value={client.id}>{client.name}</option>
+              ))}
+            </select>
+          </label>
+        </div>
+      )}
 
-      <label>
-        Client ID:
-        <input type="text" value={clientId} onChange={(e) => setClientId(e.target.value)} required />
-      </label>
-      <br />
       <label>
         Time:
         <input type="datetime-local" value={time} onChange={(e) => setTime(e.target.value)} required />
       </label>
-      <br />
-      <button type="submit">{editingAppointment ? 'Reschedule Appointment' : 'Create Appointment'}</button>
-      {editingAppointment && <button type="button" onClick={onCancelEdit}>Cancel</button>}
+      <div className="form-buttons">
+        <button type="submit">{editingAppointment ? 'Reschedule' : 'Create'}</button>
+        {editingAppointment && <button type="button" onClick={onCancelEdit}>Cancel</button>}
+      </div>
+      <div className="form-messages">
+        {message && <p style={{ color: 'green' }}>{message}</p>}
+        {error && <p style={{ color: 'red' }}>{error}</p>}
+      </div>
     </form>
   )
 }
