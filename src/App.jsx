@@ -7,6 +7,7 @@ import AppointmentForm from './components/AppointmentForm'
 import { fetchClients } from './redux/clientSlice'
 import { fetchAppointments } from './redux/appointmentSlice'
 import './App.css'
+import useAppointmentSubscription from './hooks/useAppointmentSubscription'
 
 function App() {
     const dispatch = useDispatch()
@@ -20,6 +21,7 @@ function App() {
     const cancelEdit = () => {
         setEditingAppointment(null)
     }
+    useAppointmentSubscription()
     useEffect(() => {
         dispatch(fetchClients())
         dispatch(fetchAppointments())
@@ -38,7 +40,7 @@ function App() {
 
                 </section>
                 <section className="center-panel">
-                    <h2>Appointments</h2>
+                    <h2>Upcoming Appointments</h2>
                     <AppointmentList selectedClientId={selectedClientId} onEdit={handleEdit} />
                 </section>
 

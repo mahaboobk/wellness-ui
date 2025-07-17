@@ -1,6 +1,7 @@
 // src/redux/appointmentSlice.js
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
+// Async Thunks for API calls
 export const fetchAppointments = createAsyncThunk('appointments/fetchAppointments', async () => {
     const res = await fetch('http://localhost:3000/appointments/')
     if (!res.ok) throw new Error('Failed to fetch appointments')
@@ -17,31 +18,37 @@ export const createAppointment = createAsyncThunk('appointments/createAppointmen
     return res.json()
 })
 
-export const updateAppointment = createAsyncThunk('appointments/updateAppointment', async (appointment) => {
-    const res = await fetch(`http://localhost:3000/appointments/${appointment.id}`, {
+export const updateAppointment = createAsyncThunk('appointments/updateAppointment', async (updatedAppointment) => {
+    const res = await fetch(`http://localhost:3000/appointments/${updatedAppointment.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ appointment })
+        body: JSON.stringify({ appointment: updatedAppointment })
     })
     if (!res.ok) throw new Error('Failed to update appointment')
     return res.json()
 })
 
-export const deleteAppointment = createAsyncThunk('appointments/deleteAppointment', async (id) => {
-    const res = await fetch(`http://localhost:3000/appointments/${id}`, {
+export const deleteAppointment = createAsyncThunk('appointments/deleteAppointment', async (appointmentId) => {
+    const res = await fetch(`http://localhost:3000/appointments/${appointmentId}`, {
         method: 'DELETE'
     })
     if (!res.ok) throw new Error('Failed to delete appointment')
-    return id
+    return appointmentId
 })
 
+// Slice
 const appointmentSlice = createSlice({
     name: 'appointments',
-    initialState: { data: [], status: 'idle', error: null },
+    initialState: {
+        data: [],
+        status: 'idle',
+        error: null
+    },
     reducers: {},
-    extraReducers: builder => {
+    extraReducers: (builder) => {
         builder
-            .addCase(fetchAppointments.pending, state => {
+            // Fetch
+            .addCase(fetchAppointments.pending, (state) => {
                 state.status = 'loading'
             })
             .addCase(fetchAppointments.fulfilled, (state, action) => {
@@ -52,13 +59,25 @@ const appointmentSlice = createSlice({
                 state.status = 'failed'
                 state.error = action.error.message
             })
+
+            // Create
             .addCase(createAppointment.fulfilled, (state, action) => {
-                state.data.push(action.payload)
+                console.log("🔄 Appointment created:", action)
+                const index = state.data.findIndex(app => app.id === action.payload.id)
+                if (index !== -1) {
+                    state.data[index] = action.payload
+                } else {
+                    state.data.push(action.payload)
+                }
             })
+
+            // Update
             .addCase(updateAppointment.fulfilled, (state, action) => {
-                const index = state.data.findIndex(a => a.id === action.payload.id)
+                const index = state.data.findIndex(app => app.id === action.payload.id)
                 if (index !== -1) state.data[index] = action.payload
             })
+
+            // Delete
             .addCase(deleteAppointment.fulfilled, (state, action) => {
                 state.data = state.data.filter(app => app.id !== action.payload)
             })

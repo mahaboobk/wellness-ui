@@ -12,6 +12,9 @@ const AppointmentList = ({ selectedClientId, onEdit }) => {
     const filteredAppointments = useMemo(() => {
         return appointments.filter(app => app.client_id === selectedClientId)
     }, [appointments, selectedClientId])
+    const upcomingAppointments = useMemo(() => {
+        return appointments.filter(app => new Date(app.time) > new Date())
+    }, [appointments])
 
     const getClientName = (clientId) => {
         const client = clients.find(c => c.id === clientId)
@@ -24,6 +27,9 @@ const AppointmentList = ({ selectedClientId, onEdit }) => {
     return (
         <div>
             {message && <p style={{ color: message.includes('success') ? 'green' : 'red' }}>{message}</p>}
+            {selectedClientId && filteredAppointments.length === 0 && (
+                <p>No upcoming appointments for this client.</p>
+            )}
             <ul className="appointment-list">
                 {filteredAppointments.map(app => (
                     <li key={app.id} className="appointment-item">
