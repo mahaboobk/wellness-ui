@@ -1,42 +1,50 @@
 // src/redux/appointmentSlice.js
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import * as API from '../api/appointmentAPI'
 
-// Async Thunks for API calls
-export const fetchAppointments = createAsyncThunk('appointments/fetchAppointments', async () => {
-    const res = await fetch('http://localhost:3000/appointments/')
-    if (!res.ok) throw new Error('Failed to fetch appointments')
-    return res.json()
-})
+export const fetchAppointments = createAsyncThunk(
+    'appointments/fetchAppointments',
+    async (_, { rejectWithValue }) => {
+        try {
+            return await API.fetchAppointments()
+        } catch (err) {
+            return rejectWithValue(err.response?.data || err.message)
+        }
+    }
+)
+export const createAppointment = createAsyncThunk(
+    'appointments/createAppointment',
+    async (newAppointment, { rejectWithValue }) => {
+        try {
+            return await API.createAppointment(newAppointment)
+        } catch (err) {
+            return rejectWithValue(err.response?.data || err.message)
+        }
+    }
+)
 
-export const createAppointment = createAsyncThunk('appointments/createAppointment', async (newAppointment) => {
-    const res = await fetch('http://localhost:3000/appointments/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ appointment: newAppointment })
-    })
-    if (!res.ok) throw new Error('Failed to create appointment')
-    return res.json()
-})
+export const updateAppointment = createAsyncThunk(
+    'appointments/updateAppointment',
+    async (updatedAppointment, { rejectWithValue }) => {
+        try {
+            return await API.updateAppointment(updatedAppointment)
+        } catch (err) {
+            return rejectWithValue(err.response?.data || err.message)
+        }
+    }
+)
 
-export const updateAppointment = createAsyncThunk('appointments/updateAppointment', async (updatedAppointment) => {
-    const res = await fetch(`http://localhost:3000/appointments/${updatedAppointment.id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ appointment: updatedAppointment })
-    })
-    if (!res.ok) throw new Error('Failed to update appointment')
-    return res.json()
-})
+export const deleteAppointment = createAsyncThunk(
+    'appointments/deleteAppointment',
+    async (appointmentId, { rejectWithValue }) => {
+        try {
+            return await API.deleteAppointment(appointmentId)
+        } catch (err) {
+            return rejectWithValue(err.response?.data || err.message)
+        }
+    }
+)
 
-export const deleteAppointment = createAsyncThunk('appointments/deleteAppointment', async (appointmentId) => {
-    const res = await fetch(`http://localhost:3000/appointments/${appointmentId}`, {
-        method: 'DELETE'
-    })
-    if (!res.ok) throw new Error('Failed to delete appointment')
-    return appointmentId
-})
-
-// Slice
 const appointmentSlice = createSlice({
     name: 'appointments',
     initialState: {
@@ -50,8 +58,7 @@ const appointmentSlice = createSlice({
             if (index !== -1) {
                 state.data[index] = action.payload
             } else {
-                state.data = [...state.data, action.payload]
-                // state.data.push(action.payload)
+                state.data.push(action.payload)
             }
         },
         updateFromSocket: (state, action) => {
@@ -66,9 +73,9 @@ const appointmentSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-        builder
             .addCase(fetchAppointments.pending, (state) => {
                 state.status = 'loading'
+                state.error = null
             })
             .addCase(fetchAppointments.fulfilled, (state, action) => {
                 state.status = 'succeeded'
@@ -76,7 +83,8 @@ const appointmentSlice = createSlice({
             })
             .addCase(fetchAppointments.rejected, (state, action) => {
                 state.status = 'failed'
-                state.error = action.error.message
+                state.error = action.payload
+                console.error("🚨 fetchAppointments failed:", action.payload)
             })
             .addCase(createAppointment.fulfilled, (state, action) => {
                 const index = state.data.findIndex(app => app.id === action.payload.id)
@@ -93,7 +101,19 @@ const appointmentSlice = createSlice({
                 }
             })
             .addCase(deleteAppointment.fulfilled, (state, action) => {
-                state.data = state.data.filter(app => app.id !== action.payload.id)
+                state.data = state.data.filter(app => app.id !== action.payload)
+            })
+            .addCase(createAppointment.rejected, (state, action) => {
+                state.error = action.payload
+                console.error("🚨 createAppointment failed:", action.payload)
+            })
+            .addCase(updateAppointment.rejected, (state, action) => {
+                state.error = action.payload
+                console.error("🚨 updateAppointment failed:", action.payload)
+            })
+            .addCase(deleteAppointment.rejected, (state, action) => {
+                state.error = action.payload
+                console.error("🚨 deleteAppointment failed:", action.payload)
             })
     }
 })

@@ -28,7 +28,7 @@ const AppointmentList = ({ selectedClientId, onEdit }) => {
         <div>
             {message && <p style={{ color: message.includes('success') ? 'green' : 'red' }}>{message}</p>}
             {selectedClientId && filteredAppointments.length === 0 && (
-                <p>No upcoming appointments for this client.</p>
+                <p style={{ color: 'red' }}>No upcoming appointments for this client.</p>
             )}
             <ul className="appointment-list">
                 {filteredAppointments.map(app => (
