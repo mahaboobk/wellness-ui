@@ -20,6 +20,6 @@ RUN npm install -g serve
 # Copy built assets from builder stage
 COPY --from=builder /app/dist ./dist
 
-EXPOSE 5713
+EXPOSE 5173
 
-CMD ["serve", "-s", "dist", "-l", "5713"]
+CMD ["serve", "-s", "dist", "-l", "5173"]

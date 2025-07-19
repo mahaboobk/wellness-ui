@@ -1,8 +1,12 @@
 // src/redux/clientSlice.js
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
+const host = window.location.hostname
+const apiBase = `http://${host}:3000`
+
+
 export const fetchClients = createAsyncThunk('clients/fetchClients', async () => {
-    const res = await fetch('http://localhost:3000/clients/')
+    const res = await fetch(`${apiBase}/clients/`)
     if (!res.ok) throw new Error('Failed to fetch clients')
     return res.json()
 })
