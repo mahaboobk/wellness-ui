@@ -44,10 +44,29 @@ const appointmentSlice = createSlice({
         status: 'idle',
         error: null
     },
-    reducers: {},
+    reducers: {
+        createFromSocket: (state, action) => {
+            const index = state.data.findIndex(app => app.id === action.payload.id)
+            if (index !== -1) {
+                state.data[index] = action.payload
+            } else {
+                state.data = [...state.data, action.payload]
+                // state.data.push(action.payload)
+            }
+        },
+        updateFromSocket: (state, action) => {
+            const index = state.data.findIndex(app => app.id === action.payload.id)
+            if (index !== -1) {
+                state.data[index] = action.payload
+            }
+        },
+        deleteFromSocket: (state, action) => {
+            state.data = state.data.filter(app => app.id !== action.payload.id)
+        }
+    },
     extraReducers: (builder) => {
         builder
-            // Fetch
+        builder
             .addCase(fetchAppointments.pending, (state) => {
                 state.status = 'loading'
             })
@@ -59,10 +78,7 @@ const appointmentSlice = createSlice({
                 state.status = 'failed'
                 state.error = action.error.message
             })
-
-            // Create
             .addCase(createAppointment.fulfilled, (state, action) => {
-                console.log("🔄 Appointment created:", action)
                 const index = state.data.findIndex(app => app.id === action.payload.id)
                 if (index !== -1) {
                     state.data[index] = action.payload
@@ -70,18 +86,17 @@ const appointmentSlice = createSlice({
                     state.data.push(action.payload)
                 }
             })
-
-            // Update
             .addCase(updateAppointment.fulfilled, (state, action) => {
                 const index = state.data.findIndex(app => app.id === action.payload.id)
-                if (index !== -1) state.data[index] = action.payload
+                if (index !== -1) {
+                    state.data[index] = action.payload
+                }
             })
-
-            // Delete
             .addCase(deleteAppointment.fulfilled, (state, action) => {
-                state.data = state.data.filter(app => app.id !== action.payload)
+                state.data = state.data.filter(app => app.id !== action.payload.id)
             })
     }
 })
 
+export const { createFromSocket, updateFromSocket, deleteFromSocket } = appointmentSlice.actions
 export default appointmentSlice.reducer
