@@ -1,0 +1,261 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+                
+/* src/App.css */
+/* src/App.css */
+body, html {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+  background-color: #ecf6f8;
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.app-nav {
+  background-color: #fff8f0;
+  color: #000;
+  padding: 1rem;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.app-main {
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.left-panel, .center-panel, .right-panel {
+  flex: 1;
+  min-width: 300px;
+  background-color: white;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+li {
+  background: #f1f1f1;
+  margin: 0.5rem 0;
+  padding: 0.5rem;
+  border-radius: 4px;
+}
+/* src/App.css */
+.appointment-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 1rem;
+}
+
+.appointment-item {
+  background: #f8f8f8;
+  border: 1px solid #ddd;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.actions {
+  margin-top: 0.5rem;
+}
+
+.edit-btn,
+.delete-btn {
+  padding: 0.3rem 0.6rem;
+  margin-right: 0.5rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.edit-btn {
+  background-color: #007bff;
+  color: white;
+}
+
+.delete-btn {
+  background-color: #dc3545;
+  color: white;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+form label {
+  font-weight: bold;
+}
+
+form input,
+form select {
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+form button {
+  background-color: #007e8f;
+  color: white;
+  border: none;
+  padding: 0.6rem 1rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-family: sans-serif;
+}
+
+form button:hover {
+  background-color: #006571;
+}
+.appointment-form {
+  background-color: #eee8e8;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin: 1rem 0;
+  max-width: 250px;
+  width: 100%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  font-family: 'Inter', sans-serif;
+}
+
+.appointment-form h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #00454f;
+}
+
+.appointment-form label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.appointment-form input,
+.appointment-form select {
+  width: 100%;
+  padding: 0.6rem;
+  margin-bottom: 1.2rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.appointment-form p {
+  font-size: 1rem;
+  color: #333;
+  margin-bottom: 1.2rem;
+}
+
+.appointment-form .form-buttons {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.appointment-form button {
+  background-color: #007e8f;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.appointment-form button:hover {
+  background-color: #005e6b;
+}
+
+@media screen and (max-width: 600px) {
+  .appointment-form {
+    padding: 1rem;
+  }
+
+  .appointment-form .form-buttons {
+    flex-direction: column;
+  }
+
+  .appointment-form button {
+    width: 100%;
+  }
+}
+
+.app-footer {
+  background-color: #00454f;
+  text-align: center;
+  padding: 1rem;
+  font-size: 1rem;
+  color: #fff;
+  font-family: 'Inter', sans-serif;
+}
+
+@media (max-width: 768px) {
+  .app-main {
+    flex-direction: column;
+  }
+}
