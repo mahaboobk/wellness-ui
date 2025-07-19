@@ -1,17 +1,18 @@
 // src/components/AppointmentList.jsx
 import { useSelector, useDispatch } from 'react-redux'
 import { useMemo, useState } from 'react'
-import { useSelector as useClientSelector } from 'react-redux'
 import { deleteAppointment } from '../redux/appointmentSlice'
+
 const AppointmentList = ({ selectedClientId, onEdit }) => {
     const dispatch = useDispatch()
     const [message, setMessage] = useState(null)
     const { data: appointments, status } = useSelector(state => state.appointments)
-    const { data: clients } = useClientSelector(state => state.clients)
+    const { data: clients } = useSelector(state => state.clients)
 
     const filteredAppointments = useMemo(() => {
         return appointments.filter(app => app.client_id === selectedClientId)
     }, [appointments, selectedClientId])
+
     const upcomingAppointments = useMemo(() => {
         return appointments.filter(app => new Date(app.time) > new Date())
     }, [appointments])

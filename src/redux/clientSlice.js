@@ -2,7 +2,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
 const host = window.location.hostname
-const apiBase = `http://${host}:3000`
+const apiBase = import.meta.env.VITE_API_BASE
 
 
 export const fetchClients = createAsyncThunk('clients/fetchClients', async () => {

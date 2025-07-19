@@ -1,6 +1,6 @@
 import axios from 'axios';
 const API_URL = import.meta.env.VITE_API_URL;
-console.log(API_URL)
+
 export const getClients = async () => {
     const res = await axios.get(`${API_URL}/clients`);
     if (res.status !== 200) throw new Error('Failed to fetch clients');
@@ -9,7 +9,6 @@ export const getClients = async () => {
 
 export const getAppointments = async () => {
     const res = await axios.get(`${API_URL}/appointments`);
-    console.log('Fetched appointments:', res);
     if (res.status !== 200) throw new Error('Failed to fetch appointments');
     return res.data;
 };

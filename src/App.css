@@ -245,6 +245,25 @@ form button:hover {
   }
 }
 
+.error-boundary {
+  padding: 16px;
+  border: 1px solid #f87171;
+  background-color: #fee2e2;
+  border-radius: 4px;
+}
+
+.error-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #b91c1c;
+}
+
+.error-details {
+  white-space: pre-wrap;
+  margin-top: 0.5rem;
+}
+
+
 .app-footer {
   background-color: #00454f;
   text-align: center;

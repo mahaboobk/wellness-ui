@@ -1,6 +1,6 @@
 // src/redis/cable.js
 import { createConsumer } from '@rails/actioncable'
 
-// Create a single shared ActionCable consumer instance
-const host = window.location.hostname
-export const cableApp = createConsumer(`ws://${host}:3000/cable`)
+const API_BASE = import.meta.env.VITE_WS_URL || 'ws://localhost:3000/cable'
+console.log('Connecting to ActionCable at:', API_BASE)
+export const cableApp = createConsumer(API_BASE)

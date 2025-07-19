@@ -8,7 +8,6 @@ import { fetchClients } from './redux/clientSlice'
 import { fetchAppointments } from './redux/appointmentSlice'
 import './App.css'
 import useAppointmentSubscription from './hooks/useAppointmentSubscription'
-import AppVersion from './components/AppVersion'
 
 function App() {
     const dispatch = useDispatch()
@@ -30,7 +29,7 @@ function App() {
 
     return (
         <div className="app-container">
-            <nav className="app-nav">Wellness Management</nav>
+            <nav className="app-nav">Client Appointment Booking</nav>
             <main className="app-main">
                 <section className="left-panel">
                     <h2>Clients</h2>
@@ -53,7 +52,6 @@ function App() {
                     />
                 </section>
             </main>
-            <AppVersion />
             <footer className="app-footer">© 2025 Wellness Platform</footer>
         </div>
     )
