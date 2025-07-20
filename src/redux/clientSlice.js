@@ -2,10 +2,20 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
 export const fetchClients = createAsyncThunk('clients/fetchClients', async () => {
-    const res = await fetch('http://localhost:3000/clients/')
-    if (!res.ok) throw new Error('Failed to fetch clients')
-    return res.json()
-})
+    const res = await fetch('https://wellness-api-rotv.onrender.com/clients/', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            // Add Authorization if needed
+            // 'Authorization': `Bearer ${token}`,
+        },
+        credentials: 'include', // Sends cookies if needed
+        mode: 'cors' // Ensures browser handles cross-origin properly
+    });
+
+    if (!res.ok) throw new Error('Failed to fetch clients');
+    return res.json();
+});
 
 const clientSlice = createSlice({
     name: 'clients',

@@ -1,7 +1,7 @@
 // src/api/appointmentAPI.js
 import axios from 'axios'
 
-const BASE_URL = 'http://localhost:3000/appointments'
+const BASE_URL = 'https://wellness-api-rotv.onrender.com/appointments'
 
 export const fetchAppointments = async () => {
     const res = await axios.get(BASE_URL)
