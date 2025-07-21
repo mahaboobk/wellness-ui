@@ -6,7 +6,7 @@ const AppVersion = () => {
     }, [__BUILD_TIME__])
     return (
         <small style={{ opacity: 0.6 }}>
-            Build: {__BUILD_TIME__}
+            <p>Last Build: {__BUILD_TIME__}</p>
             App Version: {__APP_VERSION__}
         </small>
     )
