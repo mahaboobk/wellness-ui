@@ -12,9 +12,5 @@ export default defineConfig({
   define: {
     __BUILD_TIME__: JSON.stringify(buildTime),
     __APP_VERSION__: JSON.stringify(versionTag)
-  },
-  server: {
-    host: '0.0.0.0',
-    port: 5173
   }
 })
