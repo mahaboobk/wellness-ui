@@ -1,4 +1,3 @@
-// src/components/AppointmentForm.jsx
 import { useDispatch, useSelector } from 'react-redux'
 import { useState, useEffect } from 'react'
 import { createAppointment, updateAppointment } from '../redux/appointmentSlice'

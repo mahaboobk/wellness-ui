@@ -1,4 +1,3 @@
-// src/App.jsx
 import { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import ClientList from './components/ClientList'
@@ -8,23 +7,23 @@ import { fetchClients } from './redux/clientSlice'
 import { fetchAppointments } from './redux/appointmentSlice'
 import './App.css'
 import AppVersion from './components/AppVersion'
+import useAppointmentPolling from './hooks/useAppointmentPolling'
 
 function App() {
     const dispatch = useDispatch()
     const [selectedClientId, setSelectedClientId] = useState(null)
     const [editingAppointment, setEditingAppointment] = useState(null)
 
-    const handleEdit = (appointment) => {
-        setEditingAppointment(appointment)
+    const refreshAppointments = () => {
+        dispatch(fetchAppointments())
     }
 
-    const cancelEdit = () => {
-        setEditingAppointment(null)
-    }
-    // useAppointmentSubscription() // Periodic Sync Redis Cache configuration
+    // Smart polling — only when not editing
+    useAppointmentPolling(editingAppointment === null)
+
     useEffect(() => {
         dispatch(fetchClients())
-        dispatch(fetchAppointments())
+        dispatch(fetchAppointments()) // initial load
     }, [dispatch])
 
     return (
@@ -37,18 +36,26 @@ function App() {
                         onSelectClient={setSelectedClientId}
                         selectedClientId={selectedClientId}
                     />
-
                 </section>
+
                 <section className="center-panel">
                     <h2>Upcoming Appointments</h2>
-                    <AppointmentList selectedClientId={selectedClientId} onEdit={handleEdit} />
+                    <AppointmentList
+                        selectedClientId={selectedClientId}
+                        onEdit={setEditingAppointment}
+                        refreshAppointments={refreshAppointments}
+                    />
                 </section>
 
                 <section className="right-panel">
                     <h2>{editingAppointment ? 'Reschedule' : 'Book'} Appointment</h2>
                     <AppointmentForm
                         editingAppointment={editingAppointment}
-                        onCancelEdit={cancelEdit}
+                        onCancelEdit={() => setEditingAppointment(null)}
+                        refreshAppointments={() => {
+                            refreshAppointments()
+                            setEditingAppointment(null)
+                        }}
                     />
                 </section>
             </main>

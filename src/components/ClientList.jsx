@@ -1,4 +1,3 @@
-// src/components/ClientList.jsx
 import { useSelector } from 'react-redux'
 
 const ClientList = ({ onSelectClient, selectedClientId }) => {

@@ -1,7 +1,7 @@
 // src/redux/clientSlice.js
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
-const BASE_URL = import.meta.env.VITE_API_BASE;
+const BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export const fetchClients = createAsyncThunk('clients/fetchClients', async () => {
     const res = await fetch(`${BASE_URL}/clients`, {

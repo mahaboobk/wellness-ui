@@ -1,7 +1,6 @@
-// src/api/appointmentAPI.js
 import axios from 'axios'
 
-const BASE_URL = 'https://wellness-api-rotv.onrender.com/appointments'
+const BASE_URL = `${import.meta.env.VITE_API_BASE_URL}/appointments`
 
 export const fetchAppointments = async () => {
     const res = await axios.get(BASE_URL)

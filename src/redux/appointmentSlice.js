@@ -1,4 +1,3 @@
-// src/redux/appointmentSlice.js
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import * as API from '../api/appointmentAPI'
 
