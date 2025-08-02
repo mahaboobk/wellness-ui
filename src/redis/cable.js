@@ -4,4 +4,4 @@ import { createConsumer } from '@rails/actioncable'
 
 // Create a single shared ActionCable consumer instance
 
-export const cableApp = createConsumer('ws://https://wellness-api-rotv.onrender.com/cable')
+export const cableApp = createConsumer('wss://https://wellness-api-rotv.onrender.com/cable')
