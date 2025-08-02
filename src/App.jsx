@@ -7,7 +7,6 @@ import AppointmentForm from './components/AppointmentForm'
 import { fetchClients } from './redux/clientSlice'
 import { fetchAppointments } from './redux/appointmentSlice'
 import './App.css'
-import useAppointmentSubscription from './hooks/useAppointmentSubscription'
 import AppVersion from './components/AppVersion'
 
 function App() {
