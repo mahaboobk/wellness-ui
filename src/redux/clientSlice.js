@@ -4,7 +4,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 const BASE_URL = import.meta.env.VITE_API_BASE;
 
 export const fetchClients = createAsyncThunk('clients/fetchClients', async () => {
-    const res = await fetch(`${BASE_URL}/clients/`, {
+    const res = await fetch(`${BASE_URL}/clients`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
