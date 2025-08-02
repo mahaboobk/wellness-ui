@@ -22,7 +22,7 @@ function App() {
     const cancelEdit = () => {
         setEditingAppointment(null)
     }
-    useAppointmentSubscription()
+    // useAppointmentSubscription() // Periodic Sync Redis Cache configuration
     useEffect(() => {
         dispatch(fetchClients())
         dispatch(fetchAppointments())
