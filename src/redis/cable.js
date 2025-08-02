@@ -1,7 +1,5 @@
 // src/redis/cable.js
 import { createConsumer } from '@rails/actioncable'
 
-
-// Create a single shared ActionCable consumer instance
-
-export const cableApp = createConsumer('wss://https://wellness-api-rotv.onrender.com/cable')
+// ✅ Correct WebSocket URL (single wss:// prefix)
+export const cableApp = createConsumer('wss://wellness-api-rotv.onrender.com/cable')
